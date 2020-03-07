@@ -1,6 +1,6 @@
 # Substack Backup
 
-Automate backing up JSON copies of your [Substack](https://substack.com) data, using GitHub Actions and AWS S3.
+Automate backing up JSON copies of your [Substack](https://substack.com) subscriber list, using GitHub Actions and AWS S3.
 
 Backups will be generated using Puppeteer and saved into the `backups` folder (`config.backupFolder`, can be changed) of an S3 bucket of your choice.
 
