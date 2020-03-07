@@ -1,0 +1,27 @@
+name: "Substack backup"
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "0 8 * * *"
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    name: Backup
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - run: npm install
+      - run: npm start
+        env:
+          SUBSTACK_URL: ${{ secrets.substackUrl }}
+          SUBSTACK_EMAIL: ${{ secrets.substackEmail }}
+          SUBSTACK_PASSWORD: ${{ secrets.substackPassword }}
+          AWS_BUCKET_NAME: ${{ secrets.awsBucketName }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.awsAccessKeyId }}
+          AWS_ACCESS_KEY_SECRET: ${{ secrets.awsAccessKeySecret }}
