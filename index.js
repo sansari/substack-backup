@@ -4,6 +4,10 @@ const config = {
   backupFolder: "backups"
 };
 
+const substackConfig = {
+  apiEndpoint: "/api/v1/download_subscribers"
+}
+
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -25,7 +29,7 @@ const generateExport = async () => {
 
     await page.goto(process.env.SUBSTACK_URL);
 
-    console.log("Logging into Substack");
+    console.log("Logging into Substack...");
 
     await page.$eval(".login-button", el => el.click());
 
@@ -41,7 +45,7 @@ const generateExport = async () => {
 
     await page.$eval("[type='submit']", el => el.click());
 
-    console.log("Successfully logged in");
+    console.log("Logged in!");
 
     await page.waitFor(3000);
 
@@ -49,17 +53,16 @@ const generateExport = async () => {
 
     await page.waitFor(3000);
 
-    await page.$eval(".stat-export.button", el => el.click());
+    let downloadURL = process.env.SUBSTACK_URL + substackConfig.apiEndpoint;
+    await page.goto(downloadURL).catch(e => {});
 
-    console.log("Download initiated");
-
-    await page.waitFor(3000);
-
-    await page.screenshot({ path: "downloading.png" });
-
-    console.log("Waiting five seconds for it to download");
+    console.log("Downloading subscribers...");
 
     await page.waitFor(5000);
+
+    console.log("Done!")
+
+    await page.screenshot({ path: "success.png" });
   } catch (err) {
     console.error("Something went wrong!");
     console.error(err);
