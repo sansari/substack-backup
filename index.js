@@ -4,10 +4,6 @@ const config = {
   backupFolder: "backups"
 };
 
-const substackConfig = {
-  apiEndpoint: "/api/v1/download_subscribers"
-}
-
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -33,7 +29,7 @@ const generateExport = async () => {
 
     await page.$eval(".login-button", el => el.click());
 
-    await page.waitFor(3000);
+    await page.waitFor(5000);
 
     await page.$eval(".login-option a", el => el.click());
 
@@ -45,20 +41,23 @@ const generateExport = async () => {
 
     await page.$eval("[type='submit']", el => el.click());
 
-    console.log("Logged in!");
+    await page.waitFor(5000);
 
-    await page.waitFor(3000);
+    console.log("Logged in!");
 
     await page.$eval("#subscribers", el => el.click());
 
-    await page.waitFor(3000);
+    // the Substack export link weirdly opens in a new tab,
+    // which breaks Puppeteers ability to download it directly
+    // so had to use this hack: https://github.com/puppeteer/puppeteer/issues/299#issuecomment-508545356
+    // sad to report it took me 3 hours to figure this out... -_-
+    await page.$eval('.stat-export', el => el.target = '');
 
-    let downloadURL = process.env.SUBSTACK_URL + substackConfig.apiEndpoint;
-    await page.goto(downloadURL).catch(e => {});
+    await page.click('.stat-export');
 
     console.log("Downloading subscribers...");
 
-    await page.waitFor(5000);
+    await page.waitFor(10000);
 
     console.log("Done!")
 
