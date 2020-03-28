@@ -77,4 +77,4 @@ If you notice any issues, or discover a better way to access exports, feel free 
 
 ## Credits
 
-Big thanks to @signalnerve who built a tool to export Roam backups ([roam-backup]()). I based this Substack export tool directly off of the approach he took, with some modifications.
+Big thanks to [@signalnerve](https://twitter.com/signalnerve) who built a tool to export Roam backups ([roam-backup](https://github.com/signalnerve/roam-backup)). I based this Substack export tool directly off of the approach he took, with some modifications.
