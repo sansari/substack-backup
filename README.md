@@ -2,6 +2,14 @@
 
 Automate backing up CSV exports of your [Substack](https://substack.com) subscriber list, using GitHub Actions and AWS S3.
 
+## Disclaimer
+
+Use with caution! I've only tested this for personal use, and do not actively maintain this repo to guarantee functionality. That said, it is a pretty straightforward script in that it just invokes a browser, logs into Substack, hits export and saves the file in Amazon.
+
+This is not an official export tool, nor is it associated with Substack Inc. in any way. It's just a little hack I put together to automate subscriber exports for my newsletter, [Quick Brown Fox 🦊](https://brownfox.substack.com).
+
+If you do end up using the tool, and find it useful, hit me up on Twitter [@daretorant](https://twitter.com/daretorant) and let me know. Happy exporting!
+
 ## Requirements
 
 - **You need your Substack URL, email and password.** If you've been using the email login for your Substack so far, just use the reset password tool to create a password. You can still use the email login, and have this backup tool use your password.
@@ -63,13 +71,11 @@ Running this project locally should be possible using `.env` - copy `.env.exampl
 
 The project generates an `error.png` screenshot to capture the current page if something goes wrong, as well as ZIP folders, which are the JSON backups. Running `npm start` will clear any local screenshots and backups, and run the script as it would in the GitHub Actions workflow (`npm start`)
 
-## Disclaimer
+## Security
 
-This is not an official export tool, nor is it associated with Substack Inc. in any way. It's just a little hack I put together to automate subscriber exports for my newsletter, [Quick Brown Fox 🦊](https://brownfox.substack.com).
+Your credentials should only be stored in **your** forked repository using GitHub Secrets.
 
-_Note on Security:_ Your credentials will only be stored in your *own* forked repository, and they will be encrypted using GitHub Secrets. As for Amazon, it can only manipulate the S3 bucket you specify, and you can choose how conservative to make the access policy. There is no server that has access to your credentials or stores any of your data. Still, use it at your own risk, and if you're unsure then I'd just suggest sticking with manual export or whatever solution you're currently using.
-
-If you do end up using the tool, and find it useful, hit me up on Twitter [@daretorant](https://twitter.com/daretorant) and let me know. Happy exporting!
+As for Amazon credentials, this script can only manipulate the S3 bucket you specify, and you can choose how conservative to make the access policy. There is no server that has access to your credentials or stores any of your data. Still, use it at your own risk, and if you're unsure then I'd just suggest sticking with manual export or whatever solution you're currently using.
 
 ## Contributing
 
